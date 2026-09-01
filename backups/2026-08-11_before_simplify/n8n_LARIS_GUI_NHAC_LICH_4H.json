@@ -1,0 +1,96 @@
+{
+  "file_type": "sanitized_live_configuration_reference",
+  "note": "Tài liệu tham chiếu cấu hình đang chạy; API bearer đã được loại bỏ và file không dùng để import đè trực tiếp.",
+  "workflow": {
+    "name": "LARIS - Gửi nhắc lịch trước 4 giờ",
+    "id": "Kxx5T49xJs5N6tlO",
+    "url": "https://n8n.nguyenthephuong.com/workflow/Kxx5T49xJs5N6tlO",
+    "state": "published",
+    "timezone": "Asia/Ho_Chi_Minh",
+    "schedule": "Mỗi 2 phút"
+  },
+  "data_table": {
+    "name": "laris_appointment_reminders",
+    "id": "lTFTZ7EdVYmwFEd9"
+  },
+  "service_code_display_map": {
+    "CAT_MAI": "Cắt mái",
+    "CAT_NU": "Cắt tóc nữ",
+    "GOI": "Gội",
+    "NHUOM": "Nhuộm",
+    "UON": "Uốn",
+    "DUOI": "Duỗi",
+    "DUOI_HOI_NUOC": "Duỗi hơi nước",
+    "DUOI_CHAN_TOC": "Duỗi chân tóc",
+    "XU_LY_DUOI_CHAN_KEM_UON": "Xử lý Duỗi chân tóc đi kèm Uốn",
+    "PHUC_HOI": "Phục hồi",
+    "TAY": "Tẩy",
+    "NANG_SANG": "Nâng sáng",
+    "BOC_MAU": "Bóc màu",
+    "TONE_SAU_TAY": "Tone sau tẩy",
+    "KHAC": "Dịch vụ khác"
+  },
+  "smax_fum": {
+    "trigger_name": "NHAC_LICH_4H_API_FUM_N8N",
+    "trigger_id": "6a64abc3fe172a10d05b62d1",
+    "page_id": "516194644904485",
+    "template_name": "laris_appointment_reminder_4h",
+    "endpoint": "<ENDPOINT_MESSENGER_API_FUM_DANG_LUU_TRONG_NODE_HTTP>",
+    "authorization": "Bearer <LUU_TRONG_N8N_KHONG_GHI_VAO_FILE>",
+    "component_parameters": [
+      "{{ $json.customer_name }}",
+      "Laris Hair Studio (dịch vụ: {{ $json.services_display || $json.services }})",
+      "{{ $json.booking_date.split('-').reverse().join('/') }}",
+      "{{ $json.booking_time }}"
+    ]
+  },
+  "node_flow": [
+    {
+      "order": 1,
+      "name": "Quét mỗi 2 phút"
+    },
+    {
+      "order": 2,
+      "name": "Đọc bảng lịch nhắc và chuẩn hóa tên dịch vụ",
+      "rule": "Ưu tiên services_display đã lưu; nếu thiếu thì tách services và ánh xạ bằng service_code_display_map. Không gộp DUOI_HOI_NUOC hoặc DUOI_CHAN_TOC vào DUOI."
+    },
+    {
+      "order": 3,
+      "name": "Chọn lịch đến hạn",
+      "rule": "status = PENDING, reminder_at <= now và appointment_at > now"
+    },
+    {
+      "order": 4,
+      "name": "Gửi FUM nhắc lịch qua Smax",
+      "rule": "Gọi trực tiếp Messenger API FUM bằng bearer riêng của trigger."
+    },
+    {
+      "order": 5,
+      "name": "Đánh dấu kết quả",
+      "rule": "Chỉ SENT khi status=200, subStatus=200 và message=OK; nếu không thì FAILED và lưu last_error."
+    },
+    {
+      "order": 6,
+      "name": "Cập nhật trạng thái SENT/FAILED"
+    }
+  ],
+  "verification_2026_07_25": {
+    "manual_execution": {
+      "id": 317,
+      "time": "19:32:51",
+      "result": "Succeeded",
+      "proof": "Smax nhận tin FUM lúc 19:32 với đúng tên Phương Bùi, dịch vụ, ngày 25/07/2026 và giờ 20:00."
+    },
+    "automatic_execution": {
+      "id": 318,
+      "time": "19:34:10",
+      "result": "Succeeded",
+      "proof": "Không có dòng PENDING đến hạn nên không gửi lại."
+    },
+    "cleanup": "Đã xóa toàn bộ dòng kiểm thử; bảng dữ liệu còn Total 0."
+  },
+  "security": [
+    "Không dùng Smax Partner send-block cho tác vụ này vì quyền pages_utility_messaging không đáp ứng.",
+    "Không lưu webhook secret, API token hoặc bearer trong repository."
+  ]
+}
