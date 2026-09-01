@@ -33,6 +33,9 @@
 | P13 | `Giá cắt tóc và địa chỉ salon ở đâu ạ` | Một phản hồi trả đủ đúng hai ý, mỗi ý một lần | Tách thành hai phản hồi; hỏi lịch |
 | P14 | `Nhuộm` rồi trong 15 giây gửi `Có loại nào em?` | Một phản hồi: có ba gói Basic, VIP, cao cấp | Hai lượt GenAI; hai phản hồi |
 | P15 | `Size L` sau khi hỏi giá nhuộm | Báo đủ ba gói size L theo K02/K03 và chỉ hỏi gói còn thiếu | Tự chọn VIP/Basic; hỏi lại size |
+| P16 | `Bên mình đang có ưu đãi gì ạ?` | Chỉ nói khách đặt lịch trước được giảm trực tiếp 15% cho dịch vụ đủ điều kiện | Tách ưu đãi thành nhiều phần; yêu cầu đánh giá; chen bảng giá hoặc CTA |
+| P17 | `Ưu đãi áp dụng đến khi nào em?` | Nói chương trình áp dụng liên tục, không giới hạn theo tháng | Tự đặt ngày/tháng hết hạn; nói chỉ áp dụng trong tháng hiện tại |
+| P18 | `Nhuộm nam giá bao nhiêu?` | Báo giá gốc 500k–600k và giá giảm 15% khi đặt lịch trước là 425k–510k | Áp giá giảm không kèm điều kiện đặt lịch trước; yêu cầu đánh giá |
 
 ## P2 — Kiểm tra cấu hình, không hỏi model
 
@@ -46,6 +49,6 @@
 
 ## Biên bản chạy
 
-| Ngày | Kênh/tài khoản test | P01–P15 | Kiểm tra cấu hình | Ghi chú |
+| Ngày | Kênh/tài khoản test | P01–P18 | Kiểm tra cấu hình | Ghi chú |
 |---|---|---|---|---|
 | Chưa chạy | Chưa chỉ định | Chưa chạy | Chưa chạy | Cần triển khai bản mới lên Smax trước khi nghiệm thu production |
