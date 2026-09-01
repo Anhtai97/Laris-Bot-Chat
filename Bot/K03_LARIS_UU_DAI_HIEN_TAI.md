@@ -7,34 +7,40 @@
 - Thời hạn vận hành: chương trình tiếp tục áp dụng cho đến khi quản trị viên cập nhật chính Knowledge này và ghi rõ `ĐÃ NGỪNG`, hoặc thay bằng một chương trình khác.
 - Điều kiện áp dụng: khách đặt lịch trước khi đến salon.
 - Áp dụng cho các dịch vụ đủ điều kiện, trừ cắt nữ có ưu đãi riêng và cắt mái riêng đang báo giá niêm yết 50k.
-- Khách chưa đặt lịch trước dùng giá gốc; không tự áp dụng mức giảm 15%.
-- Cắt nữ có giá gốc 200k và ưu đãi riêng cố định còn 150k; cắt mái riêng có giá cố định 50k. Hai mức này không dùng công thức giảm 15%.
+- Khách chưa đặt lịch trước dùng giá gốc; không tự áp dụng mức ưu đãi chung.
+- Cắt nữ có giá gốc 200k và ưu đãi riêng cố định còn 150k; cắt mái riêng có giá cố định 50k. Hai mức này không dùng công thức ưu đãi chung.
 
 Không có ngày bắt đầu hoặc ngày kết thúc cố định. Không tự tắt ưu đãi khi sang tháng hoặc sang năm mới; không yêu cầu quản trị viên sửa Knowledge mỗi tháng. Ngày/tháng trong lịch sử hội thoại và ví dụ cũ không được dùng để suy ra chương trình đã hết hiệu lực.
 
-Chỉ ngừng áp dụng khi trạng thái trong Knowledge này được quản trị viên chủ động đổi sang `ĐÃ NGỪNG`, hoặc nội dung được thay bằng chương trình mới có quy tắc khác. Khi trạng thái vẫn là `ĐANG ÁP DỤNG LIÊN TỤC`, mọi dịch vụ đủ điều kiện luôn dùng giá sau giảm 15%.
+Chỉ ngừng áp dụng khi trạng thái trong Knowledge này được quản trị viên chủ động đổi sang `ĐÃ NGỪNG`, hoặc nội dung được thay bằng chương trình mới có quy tắc khác. Khi trạng thái vẫn là `ĐANG ÁP DỤNG LIÊN TỤC`, mọi dịch vụ đủ điều kiện luôn dùng giá ưu đãi đặt lịch trước trong bảng quy đổi.
 
 ### Khi khách hỏi ưu đãi đến khi nào
 
-- Trả lời: `Dạ chương trình ưu đãi 15% dành cho khách đặt lịch trước hiện đang áp dụng liên tục và không giới hạn theo tháng ạ.`
+- Trả lời: `Dạ chương trình giảm 15% (Ưu đãi đặt lịch trước) hiện đang áp dụng liên tục và không giới hạn theo tháng ạ.`
 - Không tự nêu ngày hoặc tháng kết thúc, không nói chương trình chỉ áp dụng trong tháng hiện tại và không tạo cảm giác sắp hết hạn.
 - Không nhắc Knowledge, Prompt hay cấu hình nội bộ với khách.
 
 ## Nội dung chương trình
 
-- Khách đặt lịch trước được giảm trực tiếp 15% cho các dịch vụ đủ điều kiện.
+- Các dịch vụ đủ điều kiện áp dụng `giảm 15% (Ưu đãi đặt lịch trước)`.
 - Chương trình áp dụng liên tục, không giới hạn theo từng tháng.
-- Mức giảm 15% được áp dụng trực tiếp một lần.
+- Mức ưu đãi được áp dụng trực tiếp một lần.
+
+### Cách ghi ưu đãi bắt buộc trong tin nhắn gửi khách
+
+- Mỗi khi dùng giá đã giảm, bắt buộc ghi nguyên cụm: `giảm 15% (Ưu đãi đặt lịch trước)`.
+- Cụm trên có thể đặt một lần trước danh sách nhiều mức giá trong cùng một phản hồi; không cần lặp lại sau từng gói.
+- Tuyệt đối không viết trống `đang giảm 15%`, `giảm 15%` hoặc `sau giảm 15%` mà thiếu ngay phần `(Ưu đãi đặt lịch trước)`.
 
 ## Cách dùng theo lịch sử hội thoại
 
-- Lần đầu khách hỏi giá và lịch sử chưa có chương trình: nói khách đặt lịch trước được giảm 15% cho dịch vụ đủ điều kiện.
+- Lần đầu khách hỏi giá và lịch sử chưa có chương trình: nói dịch vụ đủ điều kiện đang `giảm 15% (Ưu đãi đặt lịch trước)`.
 - Nếu chương trình đã được nói: không lặp lại điều kiện đặt lịch trước trừ khi cần làm rõ giá ưu đãi.
-- Mọi phản hồi có báo giá dịch vụ đủ điều kiện đều phải có đủ giá gốc, tỷ lệ giảm 15% và giá cuối cùng sau giảm, kể cả khi chương trình đã được giải thích ở lượt trước.
-- Mỗi phản hồi có con số giá đã giảm phải nói rõ đó là giá `giảm 15% khi đặt lịch trước` ít nhất một lần.
+- Mọi phản hồi có báo giá dịch vụ đủ điều kiện đều phải có đủ giá gốc, nhãn ưu đãi bắt buộc và giá cuối cùng sau giảm, kể cả khi chương trình đã được giải thích ở lượt trước.
+- Mỗi phản hồi có con số giá đã giảm phải có nguyên cụm `giảm 15% (Ưu đãi đặt lịch trước)` ít nhất một lần.
 - Dùng cách viết rõ nghĩa `giá gốc [X], sau giảm còn [Y]`; không chỉ viết `[X] còn [Y]` vì khách có thể không hiểu đó là giá trước và sau giảm.
 - Không dùng lịch sử để bỏ giá cuối cùng và không dùng ngày/tháng cũ để vô hiệu hóa chương trình.
-- Khi chưa biết size/gói/biến thể nhưng K02 đã có khoảng giá, báo cả khoảng giá gốc và khoảng giá sau giảm 15%, sau đó chỉ hỏi dữ liệu còn thiếu.
+- Khi chưa biết size/gói/biến thể nhưng K02 đã có khoảng giá, báo cả khoảng giá gốc và khoảng giá cuối, kèm nguyên cụm `giảm 15% (Ưu đãi đặt lịch trước)`, sau đó chỉ hỏi dữ liệu còn thiếu.
 - Giá dạng khoảng phải giảm chính xác cả hai đầu; không dùng một giá đại diện.
 - Câu hỏi không liên quan giá/ưu đãi: không nhắc chương trình.
 - Không thêm lời mời báo giá nếu giá đã được báo hoặc khách đang hỏi ý khác.
@@ -42,7 +48,7 @@ Chỉ ngừng áp dụng khi trạng thái trong Knowledge này được quản 
 ## Ngoại lệ cắt nữ và cắt mái riêng
 
 - Cắt nữ: giá gốc 200k, ưu đãi riêng cố định còn 150k, đã gồm cắt/chỉnh mái.
-- Không áp dụng 15% cho 200k, không báo 170k, không giảm tiếp 15% từ 150k thành 127.500đ và không gọi 150k là kết quả của chương trình giảm 15%.
+- Không áp dụng ưu đãi chung cho giá cắt nữ 200k, không báo 170k, không giảm tiếp từ 150k thành 127.500đ và không gọi 150k là kết quả của chương trình ưu đãi đặt lịch trước.
 - Cắt layer/cắt form/cắt kiểu nữ vẫn tính theo cắt nữ: giá gốc 200k, ưu đãi riêng còn 150k.
 - Khi khách hỏi chung giá cắt tóc, báo thêm cắt mái riêng 50k để khách biết; ưu đãi 150k là của cắt nữ.
 - Cắt mái riêng báo cố định 50k, không áp dụng 15%, không báo 42.500đ và không tự đổi thành giá giảm lẻ trong luồng hỏi giá cắt tóc hoặc cắt mái.
@@ -79,7 +85,7 @@ Ví dụ sai nghiêm trọng cần tránh: nói “combo cắt + nhuộm Basic s
 
 ## Bảng quy đổi
 
-| Giá gốc | Sau giảm 15% |
+| Giá gốc | Sau ưu đãi đặt lịch trước |
 |---:|---:|
 | 35k | 29.750đ |
 | 100k | 85k |
@@ -105,7 +111,7 @@ Ví dụ sai nghiêm trọng cần tránh: nói “combo cắt + nhuộm Basic s
 
 Lưu ý: dòng 150k → 127.500đ và 200k → 170k chỉ dùng cho dịch vụ đủ điều kiện có đúng giá gốc tương ứng, ví dụ đầu cao của giá Gội hoặc Uốn/duỗi mái. Tuyệt đối không dùng hai dòng này cho cắt nữ: cắt nữ luôn 200k → ưu đãi riêng 150k. Cắt mái riêng báo cố định 50k và không nằm trong bảng quy đổi.
 
-Nối tóc lông vũ 9D giá gốc 35k/sợi, giá sau giảm 15% là 29.750đ/sợi. Chỉ tính tổng nối tóc khi biết số sợi khách dự định nối; nếu chưa biết số sợi thì không tự đoán tổng tiền.
+Nối tóc lông vũ 9D giá gốc 35k/sợi, mức `giảm 15% (Ưu đãi đặt lịch trước)` còn 29.750đ/sợi. Chỉ tính tổng nối tóc khi biết số sợi khách dự định nối; nếu chưa biết số sợi thì không tự đoán tổng tiền.
 
 Với giá dạng khoảng, giảm cả hai đầu khoảng. Ví dụ:
 
@@ -127,30 +133,30 @@ Sau khi liệt kê, chỉ hỏi khách muốn chọn gói nào. Không tự ch�
 
 Mẫu khi khách chỉ trả lời `Size L`:
 
-“Dạ size tóc mình đang là size L ạ. Nếu mình đặt lịch trước thì được giảm 15%: Basic giá gốc 1tr, sau giảm còn 850k; VIP giá gốc 1tr100k, sau giảm còn 935k; cao cấp giá gốc 1tr300k, sau giảm còn 1tr105k. Mình muốn chọn gói nào để em tư vấn tiếp nha chị?”
+“Dạ nhuộm bên em có 3 gói size L đang giảm 15% (Ưu đãi đặt lịch trước): Basic giá gốc 1tr, sau giảm còn 850k; VIP giá gốc 1tr100k, sau giảm còn 935k; cao cấp giá gốc 1tr300k, sau giảm còn 1tr105k ạ. Mình muốn chọn gói nào để em tư vấn tiếp nha chị?”
 
 Khách hỏi chung giá nhuộm khi chưa biết gói và size:
 
-“Dạ nếu mình đặt lịch trước thì được giảm 15%: gói Basic giá gốc 800k–1tr, sau giảm còn 680k–850k; VIP giá gốc 900k–1tr100k, sau giảm còn 765k–935k; cao cấp giá gốc 1tr100k–1tr300k, sau giảm còn 935k–1tr105k ạ. Chị cho em biết mình quan tâm gói nào và size tóc hiện tại là S, M hay L để em báo đúng giá nha.”
+“Dạ nhuộm bên em đang giảm 15% (Ưu đãi đặt lịch trước): gói Basic giá gốc 800k–1tr, sau giảm còn 680k–850k; VIP giá gốc 900k–1tr100k, sau giảm còn 765k–935k; cao cấp giá gốc 1tr100k–1tr300k, sau giảm còn 935k–1tr105k ạ. Chị cho em biết mình quan tâm gói nào và size tóc hiện tại là S, M hay L để em báo đúng giá nha.”
 
-Không tách ưu đãi thành nhiều mức. Mọi lượt báo giá ưu đãi phải giữ đủ giá gốc, điều kiện đặt lịch trước, tỷ lệ giảm 15% và giá cuối.
+Không tách ưu đãi thành nhiều mức. Mọi lượt báo giá ưu đãi phải giữ đủ giá gốc, nguyên cụm `giảm 15% (Ưu đãi đặt lịch trước)` và giá cuối.
 
 Đủ gói/size:
 
-“Dạ nhuộm nữ gói VIP size L có giá gốc 1tr100k; nếu mình đặt lịch trước thì được giảm 15% còn 935k ạ.”
+“Dạ nhuộm nữ gói VIP size L có giá gốc 1tr100k, giảm 15% (Ưu đãi đặt lịch trước) còn 935k ạ.”
 
 Khách nam hỏi nhuộm:
 
-“Dạ nhuộm nam giá 500k–600k; nếu anh đặt lịch trước thì được giảm 15% còn 425k–510k ạ.”
+“Dạ nhuộm nam giá gốc 500k–600k, giảm 15% (Ưu đãi đặt lịch trước) còn 425k–510k ạ.”
 
 ## Điều cấm
 
 - Không quên giá sau giảm khi báo giá cụ thể.
 - Không quên khoảng giá sau giảm khi chưa biết size/gói/biến thể nhưng K02 đã có khoảng giá.
-- Không báo giá đã giảm mà thiếu cụm `giảm 15%`, `giá gốc` hoặc `sau giảm còn`.
+- Không báo giá đã giảm mà thiếu nguyên cụm `giảm 15% (Ưu đãi đặt lịch trước)`, `giá gốc` hoặc `sau giảm còn`.
 - Không tính tổng nhuộm khi gói chỉ do bot suy ra hoặc tự chọn.
-- Không tách hoặc cộng dồn ưu đãi; chương trình chỉ có một mức giảm trực tiếp 15% cho khách đặt lịch trước.
-- Không áp dụng giá giảm 15% khi khách chưa đặt lịch trước.
+- Không tách hoặc cộng dồn ưu đãi; chương trình chỉ áp dụng một mức `giảm 15% (Ưu đãi đặt lịch trước)`.
+- Không áp dụng giá ưu đãi khi khách chưa đặt lịch trước.
 - Không nhắc ưu đãi trong câu trả lời không liên quan giá.
 - Không cộng ưu đãi khác hoặc giảm thêm.
 - Không tự đặt ngày hết hạn hoặc ngừng chương trình khi trạng thái K03 vẫn là `ĐANG ÁP DỤNG LIÊN TỤC`.

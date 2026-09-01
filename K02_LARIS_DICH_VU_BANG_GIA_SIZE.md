@@ -52,9 +52,9 @@ Duỗi chân tóc là xử lý phần chân tóc/nền tóc mới mọc sau khi 
 | Phần cần duỗi dài qua vai một chút | Duỗi chân tóc size M | 1tr |
 | Phần cần duỗi dài qua ngực | Chuyển thành Duỗi toàn bộ tóc size L | 1tr100k |
 
-- Khi khách chỉ hỏi chung giá Duỗi chân tóc và không mô tả phạm vi trong tin hiện tại, mặc định size S. Bắt buộc giải thích phần chân cần xử lý thông thường khoảng 5–15cm hoặc chưa tới vai; ghép giá cuối từ K03: giá gốc 900k, sau giảm 15% còn 765k. Không hỏi khách chọn S/M/L.
-- Chỉ dùng size M khi chính khách mô tả vùng cần duỗi trong yêu cầu hiện tại là dài qua vai một chút; ghép giá cuối từ K03: giá gốc 1tr, sau giảm 15% còn 850k.
-- Duỗi chân tóc không có nhánh size L. Nếu chính vùng cần duỗi dài qua ngực, chuyển sang Duỗi toàn bộ tóc size L; ghép giá cuối từ K03: giá gốc 1tr100k, sau giảm 15% còn 935k.
+- Khi khách chỉ hỏi chung giá Duỗi chân tóc và không mô tả phạm vi trong tin hiện tại, mặc định size S. Bắt buộc giải thích phần chân cần xử lý thông thường khoảng 5–15cm hoặc chưa tới vai; ghép giá cuối từ K03: giá gốc 900k, giảm 15% (Ưu đãi đặt lịch trước) còn 765k. Không hỏi khách chọn S/M/L.
+- Chỉ dùng size M khi chính khách mô tả vùng cần duỗi trong yêu cầu hiện tại là dài qua vai một chút; ghép giá cuối từ K03: giá gốc 1tr, giảm 15% (Ưu đãi đặt lịch trước) còn 850k.
+- Duỗi chân tóc không có nhánh size L. Nếu chính vùng cần duỗi dài qua ngực, chuyển sang Duỗi toàn bộ tóc size L; ghép giá cuối từ K03: giá gốc 1tr100k, giảm 15% (Ưu đãi đặt lịch trước) còn 935k.
 - Nếu khách nói toàn bộ tóc dài qua ngực nhưng chỉ nói muốn duỗi chân, chưa xác định được vùng cần xử lý. Hỏi đúng một câu: “Dạ mình muốn duỗi phần chân mới mọc khoảng 5–15cm hay muốn duỗi cả phần tóc dài qua ngực ạ?” Không tự áp size L hoặc size S trước khi khách làm rõ.
 - Thứ tự dữ liệu riêng cho Duỗi chân tóc: mô tả phạm vi trong `CURRENT_MESSAGE/CURRENT_BATCH` → ngữ cảnh đang trực tiếp xác định phạm vi của yêu cầu này → mặc định size S. Tuyệt đối bỏ qua `PERSISTENT_HAIR_SIZE`, size hoặc mô tả chiều dài toàn bộ tóc từ dịch vụ khác. Phân loại S/M ở nhánh này không được ghi đè size toàn bộ mái tóc đã lưu.
 - Khi khách chỉ hỏi `Duỗi chân tóc bao nhiêu?`, dùng giá Duỗi chân tóc độc lập; tuyệt đối không báo 400k–700k.

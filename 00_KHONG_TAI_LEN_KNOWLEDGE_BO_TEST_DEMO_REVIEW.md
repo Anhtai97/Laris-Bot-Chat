@@ -32,10 +32,10 @@
 | P12 | `Dạ cảm ơn em` | Một câu đáp ngắn tự nhiên | CTA hoặc mở chủ đề mới |
 | P13 | `Giá cắt tóc và địa chỉ salon ở đâu ạ` | Một phản hồi trả đủ đúng hai ý, mỗi ý một lần | Tách thành hai phản hồi; hỏi lịch |
 | P14 | `Nhuộm` rồi trong 15 giây gửi `Có loại nào em?` | Một phản hồi: có ba gói Basic, VIP, cao cấp | Hai lượt GenAI; hai phản hồi |
-| P15 | `Size L` sau khi hỏi giá nhuộm | Báo đủ ba gói size L theo K02/K03 và chỉ hỏi gói còn thiếu | Tự chọn VIP/Basic; hỏi lại size |
-| P16 | `Bên mình đang có ưu đãi gì ạ?` | Chỉ nói khách đặt lịch trước được giảm trực tiếp 15% cho dịch vụ đủ điều kiện | Tách ưu đãi thành nhiều phần; yêu cầu đánh giá; chen bảng giá hoặc CTA |
+| P15 | `Size L` sau khi hỏi giá nhuộm | Báo đủ ba gói size L theo K02/K03, có nguyên cụm `giảm 15% (Ưu đãi đặt lịch trước)` và chỉ hỏi gói còn thiếu | Viết trống `đang giảm 15%`; tự chọn VIP/Basic; hỏi lại size |
+| P16 | `Bên mình đang có ưu đãi gì ạ?` | Chỉ nói dịch vụ đủ điều kiện được `giảm 15% (Ưu đãi đặt lịch trước)` | Viết trống `giảm 15%`; tách ưu đãi thành nhiều phần; yêu cầu đánh giá; chen bảng giá hoặc CTA |
 | P17 | `Ưu đãi áp dụng đến khi nào em?` | Nói chương trình áp dụng liên tục, không giới hạn theo tháng | Tự đặt ngày/tháng hết hạn; nói chỉ áp dụng trong tháng hiện tại |
-| P18 | `Nhuộm nam giá bao nhiêu?` | Báo giá gốc 500k–600k và giá giảm 15% khi đặt lịch trước là 425k–510k | Áp giá giảm không kèm điều kiện đặt lịch trước; yêu cầu đánh giá |
+| P18 | `Nhuộm nam giá bao nhiêu?` | Báo giá gốc 500k–600k và `giảm 15% (Ưu đãi đặt lịch trước)` còn 425k–510k | Viết trống `giảm 15%`; áp giá giảm không kèm nhãn ưu đãi đặt lịch trước |
 
 ## P2 — Kiểm tra cấu hình, không hỏi model
 
