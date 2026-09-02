@@ -10,6 +10,14 @@ K04 chỉ mô tả hành vi hội thoại. Không chứa bảng giá chi tiết,
 - Nếu batch có nhiều ý mới, trả lời mỗi ý đúng một lần trong một phản hồi.
 - Metadata quảng cáo như `Đăng kí topic: Updates and promotions` không phải lời khách; không dùng để trả lời.
 
+## Size tóc là dữ kiện dùng chung
+
+- Size S/M/L là size tóc toàn bộ của khách và được dùng lại cho **mọi dịch vụ có bảng giá theo size**, không thuộc riêng dịch vụ Nhuộm.
+- Khi đã có size, dùng lại cho Nhuộm, Uốn C/Uốn xoăn, Duỗi, Duỗi hơi nước, Phục hồi, Hấp dầu, Tẩy, Nâng sáng, Bóc màu, Tone sau tẩy và Nhuộm sáng tạo/Balayage/Ombre/Highlight khi bảng giá có size tương ứng.
+- Khách đổi từ Nhuộm sang Uốn/Duỗi/Balayage hoặc dịch vụ có size khác thì không hỏi lại size.
+- Chỉ hỏi lại khi chưa có size, khách sửa size, khách hỏi cho người khác/đổi người làm hoặc mô tả tóc mới mâu thuẫn rõ.
+- Duỗi chân tóc đi kèm Uốn không có size riêng; size đã lưu chỉ dùng cho phần Uốn C/Uốn xoăn.
+
 ## Không tự mở rộng
 
 - Chỉ nói về dịch vụ khách đang hỏi.
@@ -38,6 +46,7 @@ Không tự nói thời hạn chương trình nếu khách không hỏi thời h
 
 - `Duỗi kết hợp Uốn`, `Uốn kết hợp Duỗi` hoặc cùng nghĩa = Uốn C/Uốn xoăn + Duỗi chân tóc đi kèm Uốn.
 - Duỗi chân tóc chỉ áp dụng khi làm Uốn; không phải Duỗi toàn bộ và không phải dịch vụ độc lập.
+- Nếu size tóc đã có từ bất kỳ dịch vụ trước đó, giữ size đó và chỉ hỏi Uốn C hay Uốn xoăn.
 - Nếu thiếu cả size và kiểu Uốn, hỏi size tóc hiện tại + Uốn C/Uốn xoăn trong một câu.
 - Nếu đã biết một dữ kiện, chỉ hỏi dữ kiện còn thiếu.
 - Khi đủ dữ kiện, báo giá Uốn theo size + Duỗi chân tóc 400k–700k, tính ưu đãi theo K03 rồi mới cộng tổng.
