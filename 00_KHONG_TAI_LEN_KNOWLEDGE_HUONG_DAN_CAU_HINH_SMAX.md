@@ -18,38 +18,39 @@ Messenger Default
 - Keyword chung như giá, ưu đãi, đặt lịch phải tắt hoặc chỉ chuyển về `AI_NHAN_TIN`; không tự gọi GenAI hay tự gửi câu trả lời.
 - Click To Message chỉ đưa chữ khách tự nhập vào buffer; metadata quảng cáo không được coi là yêu cầu của khách.
 
-## 2. Chặn metadata `Updates and promotions` trước GenAI
+## 2. Chặn metadata `Updates and promotions` bằng Keyword Trigger
 
-Trong `AI_NHAN_TIN`, đặt một điều kiện/filter **trước card nối `ai_pending_text`**.
+Theo Smax, **Messenger Default chỉ chạy khi tin nhắn không khớp một trigger cụ thể khác**, còn Trigger Keywords hỗ trợ kiểu khớp **Trùng khớp** cho tin của khách hàng. Vì vậy cách đơn giản và chắc chắn nhất là chặn metadata bằng một Keyword Trigger riêng, không đưa nó vào `AI_NHAN_TIN`.
 
-Nếu `last_content_by_user` sau khi trim khớp một trong các dạng:
-
-```text
-Đăng kí topic: Updates and promotions
-Đăng ký topic: Updates and promotions
-```
-
-hoặc cùng sự kiện hệ thống chỉ khác dấu/case, thì:
+Tạo Trigger Keyword:
 
 ```text
-END / không đi tiếp
+Tên: IGNORE_META_UPDATES_PROMOTIONS
+Nguồn: Tin của khách hàng
+Kiểu khớp: Trùng khớp
+Từ khóa 1: Đăng kí topic: Updates and promotions
+Từ khóa 2: Đăng ký topic: Updates and promotions
 ```
 
-Yêu cầu bắt buộc:
+Block đích: `IGNORE_META` hoặc block rỗng chỉ để kết thúc luồng.
 
-- Không append dòng này vào `ai_pending_text`.
-- Không REMOVE/ADD sequence debounce cho riêng dòng metadata này.
-- Không gọi GenAI.
-- Không chạy Messenger Text/sender.
-- Không gửi câu xác nhận kiểu `Dạ chị vừa đăng ký topic...`.
+Block này **không được có**:
 
-Nếu metadata và chữ khách tự nhập xuất hiện chung payload/batch, loại dòng metadata rồi chỉ đưa chữ khách tự nhập vào buffer.
+- Messenger Text/Typing gửi khách.
+- Go To Block → `AI_NHAN_TIN`.
+- GenAI.
+- Sequence.
+- JsonAPI hoặc sender khác.
 
-Đây phải là filter ở flow; không dựa riêng vào Prompt để tạo một câu trả lời rỗng.
+Kết quả mong muốn: trigger Keyword bắt đúng metadata trước, nên Messenger Default không chạy; khách nhận **0 phản hồi**.
+
+Nếu sau này Meta đổi nội dung metadata, thêm đúng chuỗi mới vào Trigger này. Không dùng từ khóa rộng như `Updates`, `promotions` hoặc `topic` vì có thể chặn nhầm lời khách thật.
+
+Prompt vẫn giữ một guardrail bỏ qua metadata nếu nó lọt vào batch, nhưng lớp chặn chính phải nằm ở Trigger.
 
 ## 3. Gom tin và chống trả lời hai lần
 
-Trong `AI_NHAN_TIN`, sau khi qua filter metadata:
+Trong `AI_NHAN_TIN`, với các tin khách thật không bị chặn bởi Keyword metadata:
 
 1. Nối tin khách mới vào `ai_pending_text`.
 2. REMOVE sequence debounce đang chờ.
