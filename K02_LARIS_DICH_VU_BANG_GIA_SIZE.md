@@ -58,7 +58,9 @@ luôn được hiểu là:
 
 Không hiểu là `Duỗi toàn bộ tóc + Uốn`.
 
-Nếu khách chưa cho cả size và kiểu Uốn, hỏi:
+Nếu size tóc toàn bộ đã được khách xác nhận trước đó ở bất kỳ dịch vụ nào, phải dùng lại size đó cho phần Uốn và không hỏi lại size. Khi đó chỉ hỏi khách muốn Uốn C hay Uốn xoăn nếu kiểu Uốn còn thiếu.
+
+Nếu chưa có cả size và kiểu Uốn, hỏi:
 
 `Chị cho em hỏi size tóc hiện tại của mình đang là size nào và mình đang muốn Uốn C hay Uốn xoăn để em tư vấn kỹ hơn ạ`
 
@@ -76,7 +78,7 @@ Ví dụ giá gốc:
 - Size L + Uốn C + Duỗi chân tóc: 1tr100k + 400k–700k = **1tr500k–1tr800k**.
 - Size L + Uốn xoăn + Duỗi chân tóc: 1tr300k + 400k–700k = **1tr700k–2tr**.
 
-Khi hỏi chung giá Uốn: Uốn C 900k–1tr100k; Uốn xoăn 1tr100k–1tr300k. Cần biết kiểu Uốn và size để báo giá cụ thể.
+Khi hỏi chung giá Uốn: uốn C 900k–1tr100k; uốn xoăn 1tr100k–1tr300k. Cần biết kiểu Uốn và size để báo giá cụ thể.
 
 ## 3. Nhuộm nữ
 
@@ -151,18 +153,37 @@ Mặc định dùng dịch vụ nữ khi khách không nói rõ giới tính. Ri
 
 Tóc nam dài hoặc kỹ thuật phức tạp: stylist kiểm tra trực tiếp rồi báo giá.
 
-## 9. Size tóc
+## 9. Size tóc — dùng chung toàn bộ dịch vụ có size
 
 - Size S: tóc ngắn hoặc trên vai.
 - Size M: tóc lỡ/ngang vai.
 - Size L: tóc dài, qua vai nhiều hoặc ngang lưng.
 - Mô tả nằm giữa hai size hoặc chưa rõ: hỏi lại nhẹ, không tự chọn.
 
-Nếu lịch sử đã có size toàn bộ tóc, dùng lại size đó cho các dịch vụ tính theo chiều dài tóc và không hỏi lại, trừ khi khách nói đang hỏi cho người khác hoặc sửa size.
+**Size là dữ kiện toàn bộ mái tóc của khách, không phải size riêng của từng dịch vụ.** Một khi khách đã xác nhận S/M/L, phải lưu và dùng lại cho tất cả các dịch vụ có giá theo size trong cùng khách/hội thoại.
 
-Dịch vụ dùng size: nhuộm nữ, Uốn C, Uốn xoăn, Duỗi, Duỗi hơi nước, phục hồi, Karatin, hấp dầu, tẩy, nâng sáng, bóc màu, tone sau tẩy và nhuộm sáng tạo.
+Ví dụ: khách đã xác nhận `Size L` khi hỏi Nhuộm, sau đó chuyển sang hỏi Uốn, Duỗi, Phục hồi, Tẩy, Nâng sáng, Bóc màu, Tone, Balayage/Ombre/Highlight thì tiếp tục dùng **Size L**. Không hỏi lại size chỉ vì đổi dịch vụ.
 
-**Duỗi chân tóc đi kèm Uốn không có size riêng.** Size chỉ dùng để xác định giá Uốn C/Uốn xoăn; phần Duỗi chân tóc vẫn là 400k–700k.
+Dịch vụ dùng size toàn bộ tóc:
+
+- Nhuộm nữ.
+- Uốn C, Uốn xoăn.
+- Duỗi, Duỗi hơi nước.
+- Nâng sáng, Bóc màu, Tone sau tẩy.
+- Phục hồi Demi/Milbon/L’Oréal/Karatin, Hấp dầu.
+- Tẩy.
+- Nhuộm sáng tạo/Baby Highlight/Balayage/Ombre/Hidden Light khi bảng giá có size tương ứng.
+
+Chỉ hỏi lại size khi:
+
+1. Chưa từng có size.
+2. Khách chủ động sửa size.
+3. Khách nói đang hỏi cho người khác/đổi người làm.
+4. Khách đưa mô tả tóc mới mâu thuẫn rõ với size đang lưu.
+
+**Không xóa hoặc đặt size về UNKNOWN chỉ vì khách chuyển dịch vụ.**
+
+**Duỗi chân tóc đi kèm Uốn không có size riêng.** Size toàn bộ tóc đã lưu chỉ dùng để xác định giá Uốn C/Uốn xoăn; phần Duỗi chân tóc vẫn là 400k–700k.
 
 Ngoài size, cần biết:
 
@@ -180,10 +201,10 @@ Không có bảng giá combo. Mỗi dịch vụ phải lấy giá riêng rồi m
 
 - Cắt nữ/cắt layer: dùng giá cắt nữ riêng.
 - Nhuộm: cần gói Basic/VIP/cao cấp nếu báo giá cụ thể.
-- Uốn: cần Uốn C/Uốn xoăn và size.
+- Uốn: cần Uốn C/Uốn xoăn và size; nếu size đã lưu từ dịch vụ trước thì dùng lại.
 - `Duỗi kết hợp Uốn`: tính Uốn + Duỗi chân tóc đi kèm Uốn 400k–700k, không dùng Duỗi toàn bộ.
-- Duỗi/Duỗi hơi nước độc lập: dùng đúng dòng S/M/L.
-- Phục hồi, tẩy, nâng sáng, bóc màu, tone: dùng đúng dòng tương ứng.
+- Duỗi/Duỗi hơi nước độc lập: dùng đúng dòng S/M/L và dùng lại size đã lưu nếu có.
+- Phục hồi, tẩy, nâng sáng, bóc màu, tone và nhuộm sáng tạo: dùng lại size đã lưu nếu bảng giá có size tương ứng.
 - Nối tóc lông vũ 9D: 35k/sợi; không tự đoán số sợi.
 
 Không tự chọn gói thấp nhất, không bỏ qua giá cắt và không tính một giá chung cho nhiều dịch vụ nếu còn thiếu dữ kiện.
