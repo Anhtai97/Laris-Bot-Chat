@@ -1,85 +1,108 @@
 # LARIS — ƯU ĐÃI ĐANG ÁP DỤNG
 
-## Hiệu lực
+## 1. Chương trình hiện hành
 
-- Tên: Chương trình giảm giá 15%.
+- Tên: ưu đãi 15% cho khách đặt lịch trước.
 - Trạng thái: **ĐANG ÁP DỤNG LIÊN TỤC**.
-- Thời hạn vận hành: chương trình tiếp tục áp dụng cho đến khi quản trị viên cập nhật chính Knowledge này và ghi rõ `ĐÃ NGỪNG`, hoặc thay bằng một chương trình khác.
-- Áp dụng cho mọi dịch vụ, trừ cắt nữ có ưu đãi riêng và cắt mái riêng đang báo giá niêm yết 50k.
-- Cắt nữ có giá gốc 200k và ưu đãi riêng cố định còn 150k; cắt mái riêng có giá cố định 50k. Hai mức này không dùng công thức giảm 15%.
+- Không giới hạn theo tháng. Chỉ ngừng khi quản trị viên cập nhật Knowledge này sang `ĐÃ NGỪNG` hoặc thay bằng chương trình khác.
+- Điều kiện: khách đặt lịch trước khi đến salon.
+- Các dịch vụ đủ điều kiện giảm 15% một lần trên giá gốc.
+- Cắt nữ có ưu đãi riêng: 200k còn 150k; không áp dụng thêm 15%.
+- Cắt mái riêng: 50k cố định; không áp dụng 15%.
 
-Không có ngày bắt đầu hoặc ngày kết thúc cố định. Không tự tắt ưu đãi khi sang tháng hoặc sang năm mới; không yêu cầu quản trị viên sửa Knowledge mỗi tháng. Ngày/tháng trong lịch sử hội thoại và ví dụ cũ không được dùng để suy ra chương trình đã hết hiệu lực.
+## 2. Câu trả lời chuẩn khi khách hỏi chung về ưu đãi
 
-Chỉ ngừng áp dụng khi trạng thái trong Knowledge này được quản trị viên chủ động đổi sang `ĐÃ NGỪNG`, hoặc nội dung được thay bằng chương trình mới có quy tắc khác. Khi trạng thái vẫn là `ĐANG ÁP DỤNG LIÊN TỤC`, mọi dịch vụ đủ điều kiện luôn dùng giá sau giảm 15%.
+Khi khách hỏi `bên mình đang có ưu đãi gì`, `có khuyến mãi gì`, `đang có chương trình gì` hoặc cùng nghĩa, dùng đúng ý sau:
 
-### Khi khách hỏi ưu đãi đến khi nào
+`Dạ bên em đang có chương trình giảm 15% cho khách hàng đặt lịch trước và dịch vụ cắt tóc bên em đang ưu đãi từ 200k còn 150k ạ, mình đang quan tâm đến dịch vụ nào bên em tư vấn chi tiết cho mình ạ`
 
-- Lấy tháng hiện tại duy nhất từ `TODAY_VN` do Smax truyền vào.
-- Nếu `TODAY_VN` hợp lệ, trả lời theo tháng của ngày đó: `Dạ ưu đãi 15% hiện đang áp dụng đến hết tháng [tháng từ TODAY_VN] ạ. Chương trình bên em được cập nhật theo từng tháng nha chị.`
-- Câu `đến hết tháng` chỉ là cách thông báo theo tháng hiện tại; không có nghĩa chương trình tự chấm dứt vĩnh viễn vào cuối tháng. Khi sang tháng mới mà trạng thái K03 vẫn đang áp dụng, dùng tháng mới từ `TODAY_VN`.
-- Nếu `TODAY_VN` thiếu, rỗng hoặc không hợp lệ, chỉ nói chương trình 15% hiện đang áp dụng; không đoán tháng, không lấy tháng từ lịch sử và không nêu một năm cụ thể.
-- Không nói `chỉ còn hôm nay`, `sắp hết hoàn toàn` hoặc `cơ hội cuối` nếu không có dữ liệu thật. Không nhắc Knowledge, Prompt hay cấu hình nội bộ với khách.
+Không tự đổi thành câu chỉ nói “đang áp dụng liên tục và không giới hạn theo tháng”. Chỉ nói thời hạn khi khách hỏi riêng `ưu đãi đến khi nào`.
 
-## Nội dung chương trình
+Khi khách hỏi ưu đãi đến khi nào:
 
-- Giảm 10% dịch vụ.
-- Thêm 5% đánh giá.
-- Tổng giảm giá 15%.
+`Dạ chương trình giảm 15% cho khách hàng đặt lịch trước hiện đang áp dụng liên tục và không giới hạn theo tháng ạ.`
 
-## Cách dùng theo lịch sử hội thoại
+## 3. Quy tắc báo giá có ưu đãi
 
-- Lần đầu khách hỏi giá và lịch sử chưa có chương trình: nói chương trình giảm 15% đang áp dụng cho dịch vụ đủ điều kiện.
-- Nếu chương trình đã được nói: không lặp công thức 10% + 5%.
-- Mọi phản hồi có báo giá dịch vụ đủ điều kiện đều phải có đủ giá gốc, tỷ lệ giảm 15% và giá cuối cùng sau giảm, kể cả khi chương trình đã được giải thích ở lượt trước.
-- Mỗi phản hồi có con số giá đã giảm phải nói rõ `giảm 15%` ít nhất một lần. Việc đã giải thích chương trình ở lượt trước chỉ cho phép bỏ công thức `10% + 5%`, không cho phép bỏ tỷ lệ `15%`.
-- Dùng cách viết rõ nghĩa `giá gốc [X], sau giảm còn [Y]`; không chỉ viết `[X] còn [Y]` vì khách có thể không hiểu đó là giá trước và sau giảm.
-- Không dùng lịch sử để bỏ giá cuối cùng và không dùng ngày/tháng cũ để vô hiệu hóa chương trình.
-- Khi chưa biết size/gói/biến thể nhưng K02 đã có khoảng giá, báo cả khoảng giá gốc và khoảng giá sau giảm 15%, sau đó chỉ hỏi dữ liệu còn thiếu.
-- Giá dạng khoảng phải giảm chính xác cả hai đầu; không dùng một giá đại diện.
-- Câu hỏi không liên quan giá/ưu đãi: không nhắc chương trình.
-- Không thêm lời mời báo giá nếu giá đã được báo hoặc khách đang hỏi ý khác.
+- Khi dùng giá sau giảm, nói rõ `giá gốc [X], giảm 15% (Ưu đãi đặt lịch trước) còn [Y]`.
+- Với nhiều giá trong cùng một phản hồi, cụm `giảm 15% (Ưu đãi đặt lịch trước)` có thể nói một lần trước danh sách miễn khách hiểu rõ toàn bộ giá sau đó là giá ưu đãi đặt lịch trước.
+- Không viết giá giảm mà thiếu điều kiện đặt lịch trước.
+- Giá dạng khoảng phải giảm chính xác cả hai đầu.
+- Không giảm hai lần trên tổng.
+- Nếu khách chưa đặt lịch trước và chỉ muốn biết giá niêm yết, giá gốc vẫn là nguồn chuẩn; mức giảm chỉ có hiệu lực khi khách đặt lịch trước.
 
-## Ngoại lệ cắt nữ và cắt mái riêng
+## 4. CTA sau báo giá
 
-- Cắt nữ: giá gốc 200k, ưu đãi riêng cố định còn 150k, đã gồm cắt/chỉnh mái.
-- Không áp dụng 15% cho 200k, không báo 170k, không giảm tiếp 15% từ 150k thành 127.500đ và không gọi 150k là kết quả của chương trình giảm 15%.
-- Cắt layer/cắt form/cắt kiểu nữ vẫn tính theo cắt nữ: giá gốc 200k, ưu đãi riêng còn 150k.
-- Khi khách hỏi chung giá cắt tóc, báo thêm cắt mái riêng 50k để khách biết; ưu đãi 150k là của cắt nữ.
-- Cắt mái riêng báo cố định 50k, không áp dụng 15%, không báo 42.500đ và không tự đổi thành giá giảm lẻ trong luồng hỏi giá cắt tóc hoặc cắt mái.
+Sau một phản hồi có báo giá, kết thúc bằng một lời mời đặt lịch nhẹ và tự nhiên, phù hợp ngữ cảnh.
 
-Câu chuẩn khi hỏi cắt tóc chung:
+Ví dụ:
 
-“Dạ cắt tóc nữ bên em giá gốc 200k, hiện có ưu đãi riêng còn 150k, đã bao gồm cắt/chỉnh mái; nếu mình chỉ cắt mái riêng thì 50k ạ.”
+- `Mình dự định khi nào làm tóc để em hỗ trợ đặt lịch luôn cho mình ạ?`
+- `Nếu mình muốn đặt lịch luôn thì em hỗ trợ mình nha chị.`
+- `Mình đang nghiêng gói nào và có muốn em hỗ trợ đặt lịch luôn không ạ?`
 
-Các câu `cắt mái`, `cắt tóc mái`, `tỉa/chỉnh mái`, `cắt mái xéo/bay` chỉ báo cắt mái riêng 50k; không dùng hai mẫu cắt nữ ở trên.
+Không lặp CTA quá nhiều:
 
-## Cách tính khi khách làm nhiều dịch vụ
+- Nếu câu trả lời ngay trước đã hỏi khách có muốn/định khi nào đặt lịch và khách chưa phản hồi ý đó, không hỏi lại.
+- Nếu khách nói chỉ tham khảo/chưa đặt, không tiếp tục mời trong cùng mạch hội thoại.
+- Có thể hỏi lại khi khách chuyển sang dịch vụ mới, chọn thêm gói/size và nhận một mức giá mới, hoặc chủ động quay lại chuyện làm tóc.
+- Câu không báo giá thì không tự thêm CTA, trừ khi khách chủ động muốn đặt lịch.
 
-Không có giá combo. Khi khách hỏi nhiều dịch vụ, phải tính từng dịch vụ riêng rồi mới cộng tổng sau ưu đãi.
+## 5. Ngoại lệ cắt nữ và cắt mái
 
-Quy trình bắt buộc:
+- Cắt nữ/cắt layer/cắt form/cắt kiểu nữ: giá gốc 200k, ưu đãi riêng còn 150k, đã gồm cắt/chỉnh mái.
+- Không báo 170k cho cắt nữ và không giảm tiếp 150k xuống 127.500đ.
+- Cắt mái riêng: 50k cố định, không giảm 15%.
 
-1. Tách từng dịch vụ khách nói.
-2. Với cắt nữ/cắt layer: dùng giá gốc 200k → ưu đãi riêng cố định còn 150k; không áp dụng 15%.
-3. Với dịch vụ áp dụng 15%: lấy giá gốc từng dịch vụ rồi tra đúng giá sau giảm trong bảng quy đổi.
-4. Cộng tổng bằng các giá sau ưu đãi của từng dịch vụ.
-5. Không giảm thêm 15% trên tổng và không áp dụng 15% lần hai cho giá cuối của từng dịch vụ.
-6. Riêng nhuộm, chỉ xem gói là đã có khi khách tự chọn rõ Basic, VIP hoặc cao cấp. Gói xuất hiện trong câu bot, bảng giá hay ví dụ không phải lựa chọn của khách.
-7. Nếu còn thiếu gói/kiểu/dòng của bất kỳ dịch vụ nào, không được tự chọn giá, không được lấy giá thấp nhất và không báo tổng cuối.
-8. Khi khách hỏi tổng mà nhuộm chưa có gói, báo rõ phần dịch vụ đã đủ nếu cần và hỏi khách chọn gói; tuyệt đối không lấy Basic để tạo `tổng tạm tính`.
+Câu giá cắt tóc chung nên giữ ý:
 
-Ví dụ đúng khi đã đủ dữ liệu size L:
+`Dạ cắt tóc nữ bên em giá gốc 200k, hiện có ưu đãi riêng còn 150k, đã bao gồm cắt/chỉnh mái; nếu mình chỉ cắt mái riêng thì 50k ạ. Mình dự định khi nào cắt để em hỗ trợ đặt lịch luôn cho mình nha chị?`
 
-- Cắt layer/cắt nữ: 200k → 150k.
-- Nhuộm Basic size L: 1tr → 850k.
-- Uốn xoăn lơi size L: 1tr300k → 1tr105k.
-- Tổng sau ưu đãi: 150k + 850k + 1tr105k = 2tr105k.
+Nếu vừa hỏi CTA ở lượt trước thì bỏ câu cuối.
 
-Ví dụ sai nghiêm trọng cần tránh: nói “combo cắt + nhuộm Basic size L là 1tr” hoặc “giá gốc 1tr + 1tr300k” khi khách có cả cắt. Đây là bỏ sót giá cắt và có thể làm salon lỗ.
+## 6. Duỗi chân tóc đi kèm Uốn
 
-## Bảng quy đổi
+- `Duỗi chân tóc (áp dụng khi Uốn)` có giá gốc **400k–700k**.
+- Dịch vụ này chỉ tồn tại khi đi kèm **Uốn C hoặc Uốn xoăn**; không áp dụng như dịch vụ độc lập.
+- Nếu khách nói `Duỗi kết hợp Uốn`, phần `Duỗi` phải được tính là Duỗi chân tóc đi kèm Uốn, không phải Duỗi toàn bộ tóc.
+- Khi khách đặt lịch trước, Duỗi chân tóc đi kèm Uốn được giảm 15%: **400k–700k → 340k–595k**.
+- Phần Uốn C/Uốn xoăn cũng tính ưu đãi theo giá gốc tương ứng.
 
-| Giá gốc | Sau giảm 15% |
+### Ví dụ size L + Uốn C + Duỗi chân tóc
+
+- Uốn C size L: giá gốc 1tr100k → giảm 15% còn 935k.
+- Duỗi chân tóc đi kèm Uốn: 400k–700k → giảm 15% còn 340k–595k.
+- Tổng giá gốc: 1tr500k–1tr800k.
+- Tổng sau ưu đãi đặt lịch trước: **1tr275k–1tr530k**.
+
+Cách trả lời gợi ý:
+
+`Dạ Uốn C size L bên em giá gốc 1tr100k, phần Duỗi chân tóc đi kèm Uốn là 400k–700k ạ. Nếu mình đặt lịch trước thì giảm 15%, tổng còn khoảng 1tr275k–1tr530k; mình dự định khi nào làm để em hỗ trợ đặt lịch luôn nha chị?`
+
+Nếu CTA vừa được hỏi ở lượt trước thì không lặp câu cuối.
+
+### Ví dụ size L + Uốn xoăn + Duỗi chân tóc
+
+- Uốn xoăn size L: 1tr300k → giảm 15% còn 1tr105k.
+- Duỗi chân tóc đi kèm Uốn: 400k–700k → 340k–595k.
+- Tổng giá gốc: 1tr700k–2tr.
+- Tổng sau ưu đãi đặt lịch trước: **1tr445k–1tr700k**.
+
+## 7. Khi khách làm nhiều dịch vụ
+
+Không có giá combo. Tính từng dịch vụ rồi cộng:
+
+1. Xác định đúng từng dịch vụ và dữ kiện bắt buộc.
+2. Với cắt nữ: dùng 200k → 150k riêng.
+3. Với dịch vụ đủ điều kiện: áp dụng 15% một lần nếu khách đặt lịch trước.
+4. Với `Uốn + Duỗi chân tóc`: tính Uốn theo size + Duỗi chân tóc 400k–700k.
+5. Không dùng giá Duỗi toàn bộ cho nhánh Uốn + Duỗi chân tóc.
+6. Không tự chọn gói nhuộm hoặc kiểu Uốn nếu khách chưa chọn.
+7. Nếu còn thiếu dữ kiện, hỏi phần thiếu trước khi chốt tổng cuối.
+
+## 8. Bảng quy đổi 15%
+
+| Giá gốc | Sau ưu đãi đặt lịch trước |
 |---:|---:|
 | 35k | 29.750đ |
 | 100k | 85k |
@@ -103,56 +126,37 @@ Ví dụ sai nghiêm trọng cần tránh: nói “combo cắt + nhuộm Basic s
 | 4tr | 3tr400k |
 | 4tr500k | 3tr825k |
 
-Lưu ý: dòng 150k → 127.500đ và 200k → 170k chỉ dùng cho dịch vụ đủ điều kiện có đúng giá gốc tương ứng, ví dụ đầu cao của giá Gội hoặc Uốn/duỗi mái. Tuyệt đối không dùng hai dòng này cho cắt nữ: cắt nữ luôn 200k → ưu đãi riêng 150k. Cắt mái riêng báo cố định 50k và không nằm trong bảng quy đổi.
+Lưu ý: dòng 200k → 170k không dùng cho cắt nữ. Cắt nữ luôn dùng ưu đãi riêng 200k → 150k.
 
-Nối tóc lông vũ 9D giá gốc 35k/sợi, giá sau giảm 15% là 29.750đ/sợi. Chỉ tính tổng nối tóc khi biết số sợi khách dự định nối; nếu chưa biết số sợi thì không tự đoán tổng tiền.
+## 9. Mẫu nhuộm
 
-Với giá dạng khoảng, giảm cả hai đầu khoảng. Ví dụ:
-
-- 500k–600k → 425k–510k.
-- 400k–700k → 340k–595k.
-- 1tr200k–2tr → 1tr020k–1tr700k.
-
-## Mẫu quan trọng
-
-### Đã biết size nhưng chưa biết gói nhuộm
-
-Khi khách chỉ cung cấp size mà chưa chọn gói, phải đưa đủ ba lựa chọn tại chính size đó:
+### Khách đã biết size nhưng chưa chọn gói
 
 - Size S: Basic 800k → 680k; VIP 900k → 765k; cao cấp 1tr100k → 935k.
 - Size M: Basic 900k → 765k; VIP 1tr → 850k; cao cấp 1tr200k → 1tr020k.
 - Size L: Basic 1tr → 850k; VIP 1tr100k → 935k; cao cấp 1tr300k → 1tr105k.
 
-Sau khi liệt kê, chỉ hỏi khách muốn chọn gói nào. Không tự chọn VIP, Basic hoặc cao cấp; không hỏi lại size; không lặp công thức 10% + 5% nếu đã nói trước đó. Tuy nhiên vẫn phải nói rõ các giá đang `giảm 15%`.
+Ví dụ size L:
 
-Mẫu khi khách chỉ trả lời `Size L`:
+`Dạ nhuộm size L bên em đang giảm 15% (Ưu đãi đặt lịch trước): Basic giá gốc 1tr còn 850k, VIP 1tr100k còn 935k, cao cấp 1tr300k còn 1tr105k ạ. Mình đang nghiêng gói nào và nếu muốn đặt lịch luôn em hỗ trợ mình nha chị?`
 
-“Dạ size tóc mình đang là size L ạ. Bên em có 3 gói size L đang giảm 15%: Basic giá gốc 1tr, sau giảm còn 850k; VIP giá gốc 1tr100k, sau giảm còn 935k; cao cấp giá gốc 1tr300k, sau giảm còn 1tr105k. Mình muốn chọn gói nào để em tư vấn tiếp nha chị?”
+### Đủ gói + size
 
-Khách hỏi chung giá nhuộm khi chưa biết gói và size:
+`Dạ nhuộm bên em gói VIP size L giá gốc 1tr100k, giảm 15% (Ưu đãi đặt lịch trước) còn 935k ạ, mình dự định khi nào làm tóc để em hỗ trợ đặt lịch luôn cho mình ạ?`
 
-“Dạ nhuộm bên em có gói Basic giá gốc 800k–1tr, sau giảm 15% còn 680k–850k; VIP giá gốc 900k–1tr100k, sau giảm còn 765k–935k; cao cấp giá gốc 1tr100k–1tr300k, sau giảm còn 935k–1tr105k ạ. Chị cho em biết mình quan tâm gói nào và size tóc hiện tại là S, M hay L để em báo đúng giá nha.”
+Nếu lượt trước vừa có CTA đặt lịch thì chỉ báo giá, không lặp câu hỏi.
 
-Nếu công thức `10% dịch vụ + 5% đánh giá` chưa được giải thích trong lịch sử, có thể nói thêm một lần. Nếu đã giải thích, không lặp công thức nhưng vẫn phải giữ đủ giá gốc, cụm `giảm 15%` và giá cuối trong mọi lượt báo giá.
+### Khách nam hỏi nhuộm
 
-Đủ gói/size:
+`Dạ nhuộm nam giá gốc 500k–600k, giảm 15% (Ưu đãi đặt lịch trước) còn 425k–510k ạ. Nếu mình muốn đặt lịch luôn em hỗ trợ mình nha anh.`
 
-“Dạ nhuộm nữ gói VIP size L có giá gốc 1tr100k, sau giảm 15% còn 935k ạ.”
+## 10. Điều cấm
 
-Khách nam hỏi nhuộm:
-
-“Dạ nhuộm nam giá 500k–600k, giá sau khi giảm 15% còn 425k–510k ạ. Chương trình gồm 10% dịch vụ + 5% đánh giá nha anh.”
-
-## Điều cấm
-
-- Không quên giá sau giảm khi báo giá cụ thể.
-- Không quên khoảng giá sau giảm khi chưa biết size/gói/biến thể nhưng K02 đã có khoảng giá.
-- Không báo giá đã giảm mà thiếu cụm `giảm 15%`, `giá gốc` hoặc `sau giảm còn`.
-- Không tính tổng nhuộm khi gói chỉ do bot suy ra hoặc tự chọn.
-- Không lặp công thức 10% + 5% ở nhiều lượt; vẫn phải nêu tỷ lệ 15% và giá cuối trong mọi phản hồi có báo giá.
-- Không nhắc ưu đãi trong câu trả lời không liên quan giá.
-- Không cộng ưu đãi khác hoặc giảm thêm.
-- Không tự đặt ngày hết hạn hoặc ngừng chương trình khi trạng thái K03 vẫn là `ĐANG ÁP DỤNG LIÊN TỤC`.
-- Không báo cắt mái riêng theo giá giảm lẻ nếu khách hỏi cắt tóc/cắt mái; giá cắt mái riêng đang dùng là 50k.
-
-Khi quản trị viên ngừng chương trình hoặc có chương trình mới, cập nhật trạng thái/nội dung của chính Knowledge này; không giữ nhiều Knowledge ưu đãi cùng lúc.
+- Không nói `đang áp dụng liên tục và không giới hạn theo tháng` khi khách chỉ hỏi `đang có ưu đãi gì`.
+- Không áp 15% vào cắt nữ hoặc cắt mái.
+- Không dùng giá Duỗi toàn bộ tóc cho `Duỗi kết hợp Uốn`.
+- Không coi Duỗi chân tóc là dịch vụ độc lập.
+- Không giảm 15% hai lần.
+- Không tự đặt ngày hết hạn.
+- Không lặp CTA đặt lịch ở mọi câu nếu đã hỏi gần nhất hoặc khách đã nói chưa đặt.
+- Không nhắc ưu đãi trong câu không liên quan giá/ưu đãi.
