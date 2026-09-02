@@ -9,7 +9,7 @@ Giữ một đường vào cho tin nhắn tự do:
 ```text
 Messenger Default
 → AI_NHAN_TIN
-→ AI_GOM_TIN
+→ AI_GOM_TIN_FB_DEBOUNCE
 → AI_TRA_LOI
 → sender của kênh
 ```
@@ -20,7 +20,7 @@ Messenger Default
 
 ## 2. Chặn metadata `Updates and promotions` bằng Keyword Trigger
 
-Theo Smax, **Messenger Default chỉ chạy khi tin nhắn không khớp một trigger cụ thể khác**, còn Trigger Keywords hỗ trợ kiểu khớp **Trùng khớp** cho tin của khách hàng. Vì vậy cách đơn giản và chắc chắn nhất là chặn metadata bằng một Keyword Trigger riêng, không đưa nó vào `AI_NHAN_TIN`.
+Theo Smax, Messenger Default chỉ chạy khi tin nhắn không khớp một trigger cụ thể khác, còn Trigger Keywords hỗ trợ kiểu khớp **Trùng khớp** cho tin của khách hàng.
 
 Tạo Trigger Keyword:
 
@@ -34,67 +34,221 @@ Từ khóa 2: Đăng ký topic: Updates and promotions
 
 Block đích: `IGNORE_META` hoặc block rỗng chỉ để kết thúc luồng.
 
-Block này **không được có**:
+Block này không được có Messenger Text/Typing, GenAI, Sequence, JsonAPI hoặc Go To Block về `AI_NHAN_TIN`.
 
-- Messenger Text/Typing gửi khách.
-- Go To Block → `AI_NHAN_TIN`.
-- GenAI.
-- Sequence.
-- JsonAPI hoặc sender khác.
+## 3. Size tóc phải là state toàn cục
 
-Kết quả mong muốn: trigger Keyword bắt đúng metadata trước, nên Messenger Default không chạy; khách nhận **0 phản hồi**.
+Attribute dùng:
 
-Nếu sau này Meta đổi nội dung metadata, thêm đúng chuỗi mới vào Trigger này. Không dùng từ khóa rộng như `Updates`, `promotions` hoặc `topic` vì có thể chặn nhầm lời khách thật.
+```text
+laris_hair_size      Text
+laris_dye_package    Text
+```
 
-Prompt vẫn giữ một guardrail bỏ qua metadata nếu nó lọt vào batch, nhưng lớp chặn chính phải nằm ở Trigger.
+`laris_hair_size` không thuộc riêng Nhuộm. Đây là size toàn bộ tóc của khách và phải được dùng lại cho mọi dịch vụ có giá theo size.
 
-## 3. Gom tin và chống trả lời hai lần
+Ví dụ:
 
-Trong `AI_NHAN_TIN`, với các tin khách thật không bị chặn bởi Keyword metadata:
+```text
+Khách hỏi Nhuộm → xác nhận Size L
+↓
+laris_hair_size = L
+↓
+Khách chuyển sang Uốn / Duỗi / Phục hồi / Tẩy / Balayage
+↓
+Bot tiếp tục dùng Size L
+```
 
-1. Nối tin khách mới vào `ai_pending_text`.
-2. REMOVE sequence debounce đang chờ.
-3. ADD lại đúng một sequence với thời gian 15 giây.
+Không reset `laris_hair_size` khi khách đổi dịch vụ. Chỉ đổi/reset khi khách tự sửa size, nói đang hỏi cho người khác/đổi người làm, hoặc mô tả tóc mới mâu thuẫn rõ.
 
-Sau thời gian chờ:
+Trong Card `AI Trạng thái` dùng prompt `SMAX_EMBEDDED_PROMPT_STATE_2026-08-11.md` bản mới. Parse Content phải map:
 
-1. Chuyển batch sang `ai_processing_text`.
-2. Xóa pending.
-3. Gọi `AI_TRA_LOI` đúng một lần.
-4. Chỉ một Bot AI được phép tạo nội dung gửi khách.
-5. Nối thẳng sang một sender cuối của kênh.
+```text
+SIZE    → laris_hair_size
+PACKAGE → laris_dye_package
+```
 
-Nếu vẫn lặp, xem Card Logs/Block Logs cho cùng message ID. Hai lượt chạy nghĩa là còn router/Keyword/sequence/sender cạnh tranh; không sửa Prompt để che lỗi flow.
+Trong Card `Bot AI` bắt buộc truyền:
 
-## 4. Cấu hình AI_TRA_LOI
+```text
+PERSISTENT_HAIR_SIZE={{laris_hair_size}}
+PERSISTENT_DYE_PACKAGE={{laris_dye_package}}
+```
 
-- State extractor chỉ cần lưu `laris_hair_size` và `laris_dye_package` nếu hai state này đang dùng.
-- Parse Content chỉ ánh xạ các thuộc tính thật sự cần.
-- Bot AI nhận CURRENT_MESSAGE, CURRENT_BATCH, STATE_RESULT, size và gói.
+Nếu `laris_hair_size=L`, câu `chị muốn làm thêm uốn kèm duỗi` chỉ được hỏi `Uốn C hay Uốn xoăn`, không hỏi lại size.
+
+## 4. Gom tin 15 giây — cấu hình chuẩn
+
+Theo tài liệu Smax về Sequence: một khách không thể ADD lại vào cùng Sequence khi còn nằm trong Sequence. Muốn khởi động lại thời gian phải **REMOVE → ADD**. Cấu hình REMOVE + ADD cùng `AI_GOM_TIN_FB_DEBOUNCE` trong ảnh hiện tại là đúng nguyên tắc này.
+
+### 4.1 Attributes
+
+Tạo/giữ hai Text Attributes:
+
+```text
+ai_pending_text
+ai_processing_text
+```
+
+### 4.2 Block `AI_NHAN_TIN`
+
+Card 1 — Set Attributes:
+
+```text
+ai_pending_text = {{ai_pending_text}}
+{{last_content_by_user}}
+```
+
+Mục tiêu: mỗi tin mới nối vào buffer hiện tại, không ghi đè tin trước.
+
+Card 2 — Sequence, đúng thứ tự:
+
+```text
+REMOVE  AI_GOM_TIN_FB_DEBOUNCE
+ADD     AI_GOM_TIN_FB_DEBOUNCE   NOW
+```
+
+Không đặt GenAI hoặc Messenger Text trong `AI_NHAN_TIN`.
+
+### 4.3 Sequence `AI_GOM_TIN_FB_DEBOUNCE`
+
+Chỉ giữ **một Step duy nhất**:
+
+```text
++15 second(s)
+→ AI_TRA_LOI
+```
+
+Không có Step thứ hai, không có sender và không có một Sequence debounce khác chạy song song cho cùng Facebook Page.
+
+### 4.4 Đầu block `AI_TRA_LOI`
+
+Card đầu tiên phải snapshot batch:
+
+```text
+ai_processing_text = {{ai_pending_text}}
+ai_pending_text    = [rỗng]
+```
+
+Sau đó mới chạy:
+
+```text
+AI Trạng thái
+→ Parse Content
+→ Bot AI
+→ một Messenger Text duy nhất
+```
+
+Card Bot AI phải đọc:
+
+```text
+CURRENT_BATCH={{ai_processing_text}}
+```
+
+Không chỉ đọc `last_content_by_user`, vì biến đó chỉ chứa tin cuối.
+
+Nên thêm bộ lọc `ai_processing_text có giá trị / không rỗng` cho Card GenAI hoặc sender cuối. Mục tiêu: nếu vì lý do nào đó Sequence gọi `AI_TRA_LOI` lần hai sau khi pending đã được lấy hết, lượt rỗng phải dừng và không gửi lại câu cũ.
+
+## 5. Ảnh hiện tại cho thấy lỗi chính là trả lời hai lần, không phải mất dữ kiện gom tin
+
+Trong case thực tế:
+
+```text
+Khách: Size L
+Khách: uốn xoăn
+Bot: [cùng một câu giá Uốn xoăn Size L]
+Bot: [lặp lại y hệt]
+```
+
+Cả hai câu Bot đều đã biết **Size L + Uốn xoăn**. Điều này cho thấy dữ kiện đã tới được Bot; vấn đề cần tìm là **AI_TRA_LOI bị chạy hai lần hoặc cùng ai_answer bị gửi bởi hai sender**, không nên sửa Prompt để che lỗi.
+
+### 5.1 Kiểm tra Sequence Logs trước
+
+Vào:
+
+```text
+AI_GOM_TIN_FB_DEBOUNCE
+→ Logs
+```
+
+Test bằng tài khoản thử:
+
+```text
+Tin 1: Size L
+sau 1–3 giây
+Tin 2: uốn xoăn
+```
+
+Chờ hơn 15 giây.
+
+Kết quả chuẩn: chỉ có **một lần** Step `→ AI_TRA_LOI` thực thi sau tin cuối.
+
+### 5.2 Nếu Logs cho thấy `AI_TRA_LOI` chạy 2 lần
+
+Kiểm tra và tắt các đường cạnh tranh:
+
+1. Có Trigger Keyword nào của `Size`, `Uốn`, `Nhuộm`, giá... tự đi tới `AI_TRA_LOI` hoặc tự gọi GenAI không.
+2. Có Trigger GenAI/Other đang bật song song Messenger Default không.
+3. Có hai block `AI_NHAN_TIN` hoặc hai Sequence debounce cùng được gọi không.
+4. Sequence có nhiều hơn một Step tới `AI_TRA_LOI` không.
+5. Cùng một Keyword có vừa Go To `AI_NHAN_TIN` vừa có sender/GenAI riêng không.
+
+Mục tiêu cuối: mọi tin tự do chỉ có **một router** `Messenger Default → AI_NHAN_TIN`.
+
+### 5.3 Nếu Logs cho thấy `AI_TRA_LOI` chỉ chạy 1 lần nhưng khách nhận 2 tin giống nhau
+
+Đây là lỗi sender.
+
+Tìm toàn bộ flow sau `AI_TRA_LOI` và chỉ giữ một nơi gửi `ai_answer`:
+
+```text
+Messenger Text = {{ai_answer}}
+```
+
+Tắt/xóa các sender cũ như:
+
+- Messenger Text thứ hai.
+- `AI_GUI_TRA_LOI` cũ nếu một sender đã nằm ngay trong `AI_TRA_LOI`.
+- JsonAPI/n8n từng dùng để gửi lại text.
+- `AI_JSON_GUI` hoặc block dự phòng dẫn tới sender khác.
+
+Một lượt Bot AI chỉ được có **một final sender**.
+
+## 6. Cấu hình `AI_TRA_LOI`
+
+Thứ tự gọn nhất:
+
+```text
+1. Set Attributes: snapshot pending → processing, clear pending
+2. AI Trạng thái
+3. Parse Content: SIZE/PACKAGE
+4. Bot AI
+5. Messenger Text {{ai_answer}}
+```
+
+- State extractor chỉ lưu `laris_hair_size` và `laris_dye_package`.
+- Bot AI nhận CURRENT_MESSAGE, CURRENT_BATCH, STATE_RESULT, PERSISTENT_HAIR_SIZE và PERSISTENT_DYE_PACKAGE.
 - Gắn K01, K02, K03 và K05. K04 là tài liệu hành vi tham chiếu; không cần gắn nếu toàn bộ luật đã nằm trong Prompt Chính.
-- Bot AI chỉ xuất một phản hồi tự nhiên.
+- Không dùng GenAI đóng gói JSON trung gian.
 
-## 5. Sender
+## 7. Sender
 
 - Facebook: một card Messenger Text với `ai_answer` làm sender duy nhất.
 - Instagram: chỉ một Instagram Text.
 - Không dùng n8n để format, gửi, note lịch hoặc nhắc lịch.
-- Không giữ `AI_JSON_GUI`, JsonAPI gửi nội dung, webhook lịch hoặc sender dự phòng có thể gửi lại cùng nội dung.
+- Không giữ sender dự phòng có thể gửi lại cùng nội dung.
 
-## 6. Báo giá và CTA đặt lịch
+## 8. Báo giá và CTA đặt lịch
 
-CTA sau báo giá được xử lý ở Prompt/GenAI, không tạo một block CTA riêng.
+CTA sau báo giá được xử lý ở Prompt/GenAI, không tạo block CTA riêng.
 
-Quy tắc:
-
-- Có báo giá → AI có thể kết thúc bằng một lời mời đặt lịch mềm.
+- Có báo giá → một lời mời đặt lịch mềm.
 - Nếu lượt trước vừa hỏi đặt lịch và khách chưa trả lời ý đó → không hỏi lại.
 - Khách nói chỉ tham khảo/chưa đặt → không bám tiếp CTA trong cùng mạch.
-- Không tạo sequence/follow-up riêng chỉ để hỏi đặt lịch.
 
-## 7. Duỗi kết hợp Uốn
+## 9. Duỗi kết hợp Uốn
 
-Không tạo flow riêng cho dịch vụ này. Để Bot AI xử lý theo K02/K03:
+Không tạo flow riêng:
 
 ```text
 Duỗi kết hợp Uốn
@@ -102,28 +256,23 @@ Duỗi kết hợp Uốn
 + Duỗi chân tóc (áp dụng khi Uốn)
 ```
 
-Nếu thiếu size/kiểu Uốn, Bot hỏi phần còn thiếu. Khi đủ dữ kiện, Bot báo giá Uốn + Duỗi chân tóc 400k–700k và áp ưu đãi theo K03.
+Nếu size đã lưu từ dịch vụ trước thì dùng lại. Chỉ hỏi dữ kiện còn thiếu.
 
-## 8. Đặt lịch thủ công
+## 10. Đặt lịch thủ công
 
 - Tin đặt lịch vẫn đi qua router chung và Bot AI.
 - Sau khi khách đồng ý đặt lịch, AI chỉ hỏi dịch vụ, thời gian hoặc SĐT còn thiếu.
-- Khi đủ thông tin, AI nói đã note để nhân viên hỗ trợ.
-- Không tạo thuộc tính booking nếu không cần, không webhook, không Data Table và không nhắc lịch tự động.
-- Đổi/hủy lịch chuyển nhân viên kiểm tra thủ công; AI không tuyên bố đã xử lý xong.
+- Không webhook, Data Table hoặc n8n nhắc lịch.
 
-## 9. Khách xin ảnh
+## 11. Khách xin ảnh
 
-- Yêu cầu xin ảnh/hình mẫu không kích hoạt image generator, image search hoặc card ảnh tự động.
-- Bot AI chỉ gửi lời chờ; nhân viên gửi ảnh thủ công trong cùng hội thoại.
+- Bot AI chỉ gửi lời chờ; nhân viên gửi ảnh thủ công.
 - Chỉ giữ trigger ảnh hướng dẫn size khi Bot AI thật sự hỏi `size tóc hiện tại`.
-- Tắt trigger ảnh bảng giá. Mọi yêu cầu xin ảnh khác để nhân viên gửi thủ công.
 
-## 10. Nghiệm thu
+## 12. Nghiệm thu
 
-1. Chạy toàn bộ regression test trong `00_KHONG_TAI_LEN_KNOWLEDGE_BO_TEST_DEMO_REVIEW.md`.
-2. Test riêng metadata `Đăng kí topic: Updates and promotions`: phải có **0 lượt GenAI và 0 sender**.
-3. Test `Duỗi kết hợp Uốn`: không được dùng giá Duỗi toàn bộ.
-4. Test báo giá: có CTA mềm nhưng không lặp CTA liên tục.
-5. Với bài test gom tin, xác nhận chỉ một lượt AI và một sender trong logs.
-6. Chờ thêm ít nhất một chu kỳ debounce để chắc chắn không có tin lặp muộn.
+1. Test `Size L` ở Nhuộm rồi đổi sang Uốn/Duỗi/Balayage: Bot không hỏi lại size.
+2. Test hai tin `Size L` → `uốn xoăn` trong dưới 15 giây: chỉ một lượt `AI_TRA_LOI` và một tin trả lời.
+3. Xem Sequence Logs để phân biệt lỗi debounce và lỗi sender.
+4. Test metadata `Updates and promotions`: 0 GenAI, 0 sender.
+5. Chạy toàn bộ regression test trong file test.
